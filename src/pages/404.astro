@@ -1,0 +1,23 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Not found — India Climate Monitor">
+  <section class="notfound">
+    <p class="eyebrow">404</p>
+    <h1>That page drifted off the chart.</h1>
+    <p>The thing you were looking for isn't here. The climate record still is.</p>
+    <p><a href="/">← Back to the monitor</a></p>
+  </section>
+</Base>
+
+<style>
+  .notfound { padding: 14vh 0 18vh; max-width: 36rem; }
+  .notfound .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ember, #cf4321); margin: 0 0 0.6rem; }
+  .notfound h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.08; margin: 0 0 0.8rem; }
+  .notfound p { color: var(--ink-soft, #555); margin: 0 0 0.6rem; }
+  .notfound a { color: var(--ember, #cf4321); text-decoration: none; font-weight: 600; }
+  .notfound a:hover { text-decoration: underline; }
+</style>

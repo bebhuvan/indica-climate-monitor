@@ -10,9 +10,11 @@
     "ingest:cmip6": "node scripts/ingest-cmip6.mjs",
     "ingest:enso": "node scripts/ingest-enso-advisory.mjs",
     "refresh": "node scripts/ingest-enso-advisory.mjs && npm run aggregate",
-    "dev": "npm run aggregate && astro dev",
+    "dev": "astro dev",
     "start": "astro dev",
-    "build": "npm run aggregate && astro build",
+    "build": "astro build",
+    "build:data": "npm run aggregate && astro build",
+    "deploy": "npm run build && npx wrangler deploy",
     "preview": "astro preview"
   },
   "dependencies": {

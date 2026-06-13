@@ -1,0 +1,22 @@
+# Cloudflare Workers — static-assets deploy (no server runtime code).
+# Build with `npm run build` (emits ./dist), then `wrangler deploy`.
+name = "indica-climate-monitor"
+compatibility_date = "2026-06-04"
+# Account ID is not secret (it's in dashboard URLs). Committing it lets CI deploy
+# with only a CLOUDFLARE_API_TOKEN secret. Same account as the main thisindianlife.today site.
+account_id = "169758eb3d46dcbb6dba025317257426"
+
+# Custom domain — wrangler provisions the DNS record + edge cert on first deploy.
+# The thisindianlife.today zone is already in this account, so climate.* just works.
+routes = [
+  { pattern = "climate.thisindianlife.today", custom_domain = true }
+]
+
+[assets]
+directory = "./dist"
+# src/pages/404.astro emits /404.html, served for any unmatched path.
+not_found_handling = "404-page"
+# Directory build emits /path/index.html → serve canonical trailing-slash URLs.
+html_handling = "auto-trailing-slash"
+
+# _headers (edge cache rules) in ./dist is honored automatically.

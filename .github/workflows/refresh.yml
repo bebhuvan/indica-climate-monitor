@@ -1,0 +1,51 @@
+name: Refresh data
+
+# Keep the monitor live: re-fetch the keyless, fast-moving sources daily, commit any
+# change, and redeploy. Today this covers the NOAA CPC ENSO advisory (the most
+# time-sensitive panel). The heavy 148-city ERA5 refresh is a separate, weekly,
+# incremental job (TODO: scripts/update-cities.mjs) once that path is built.
+on:
+  schedule:
+    - cron: "30 1 * * *" # 07:00 IST daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Fetch NOAA ENSO advisory
+        run: npm run ingest:enso
+
+      - name: Commit refreshed data (if changed)
+        run: |
+          git config user.name "climate-monitor-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data public/data
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "data: scheduled refresh ($(date -u +%F))"
+            git push
+          fi
+
+      - run: npm run build
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy

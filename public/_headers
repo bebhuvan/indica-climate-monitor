@@ -1,0 +1,16 @@
+# Cloudflare edge cache rules (honored from dist/_headers).
+
+# Hashed build assets + fonts never change for a given URL → cache forever.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# City/national data: changes on the weekly refresh. Cache an hour, but serve stale
+# instantly while revalidating in the background — fast repeat loads, never stale-stuck.
+/data/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+
+# HTML: always revalidate so a redeploy is picked up immediately.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
