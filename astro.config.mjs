@@ -7,5 +7,11 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://climate.thisindianlife.today",
   trailingSlash: "always",
-  build: { format: "directory" },
+  build: {
+    format: "directory",
+    // Inline all CSS into the HTML (total is ~6 KB) so it's never a render-blocking
+    // request on the critical path — improves FCP/LCP. HTML brotli-compresses to a
+    // few KB anyway, so the inline cost is negligible.
+    inlineStylesheets: "always",
+  },
 });
