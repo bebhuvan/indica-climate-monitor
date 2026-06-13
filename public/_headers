@@ -11,6 +11,7 @@
 /data/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=604800
 
-# HTML: always revalidate so a redeploy is picked up immediately.
-/*
-  Cache-Control: public, max-age=0, must-revalidate
+# NB: no catch-all /* rule. Cloudflare CONCATENATES every matching rule's headers, so a
+# /* Cache-Control would prepend onto /_astro, /fonts and /data and corrupt them
+# (e.g. "max-age=0 ... max-age=31536000" → browsers take the first, killing immutable).
+# HTML keeps the Workers-assets default (revalidate-friendly), which is what we want.
