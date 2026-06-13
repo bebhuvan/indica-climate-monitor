@@ -1,0 +1,231 @@
+{
+  "scope": "India (national, CMIP6 ensemble median)",
+  "baseline": "1991-2014",
+  "scenarios": {
+    "lo": "SSP2-4.5 (intermediate)",
+    "hi": "SSP5-8.5 (high emissions)"
+  },
+  "source": {
+    "name": "World Bank Climate Change Knowledge Portal — CMIP6",
+    "url": "https://climateknowledgeportal.worldbank.org/"
+  },
+  "note": "India-scale projection overlaid on each city as regional context; not a city-specific forecast.",
+  "annual": [
+    {
+      "year": 2015,
+      "lo": 0.27,
+      "hi": 0.28,
+      "mean": 0.27
+    },
+    {
+      "year": 2016,
+      "lo": 0.16,
+      "hi": 0.3,
+      "mean": 0.23
+    },
+    {
+      "year": 2017,
+      "lo": 0.26,
+      "hi": 0.27,
+      "mean": 0.26
+    },
+    {
+      "year": 2018,
+      "lo": 0.33,
+      "hi": 0.35,
+      "mean": 0.34
+    },
+    {
+      "year": 2019,
+      "lo": 0.26,
+      "hi": 0.37,
+      "mean": 0.31
+    },
+    {
+      "year": 2020,
+      "lo": 0.29,
+      "hi": 0.31,
+      "mean": 0.3
+    },
+    {
+      "year": 2021,
+      "lo": 0.34,
+      "hi": 0.4,
+      "mean": 0.37
+    },
+    {
+      "year": 2022,
+      "lo": 0.28,
+      "hi": 0.45,
+      "mean": 0.36
+    },
+    {
+      "year": 2023,
+      "lo": 0.43,
+      "hi": 0.48,
+      "mean": 0.45
+    },
+    {
+      "year": 2024,
+      "lo": 0.45,
+      "hi": 0.54,
+      "mean": 0.49
+    },
+    {
+      "year": 2025,
+      "lo": 0.45,
+      "hi": 0.48,
+      "mean": 0.46
+    },
+    {
+      "year": 2026,
+      "lo": 0.5,
+      "hi": 0.55,
+      "mean": 0.52
+    },
+    {
+      "year": 2027,
+      "lo": 0.49,
+      "hi": 0.62,
+      "mean": 0.55
+    },
+    {
+      "year": 2028,
+      "lo": 0.45,
+      "hi": 0.6,
+      "mean": 0.52
+    },
+    {
+      "year": 2029,
+      "lo": 0.68,
+      "hi": 0.7,
+      "mean": 0.69
+    },
+    {
+      "year": 2030,
+      "lo": 0.54,
+      "hi": 0.66,
+      "mean": 0.6
+    },
+    {
+      "year": 2031,
+      "lo": 0.58,
+      "hi": 0.78,
+      "mean": 0.68
+    },
+    {
+      "year": 2032,
+      "lo": 0.71,
+      "hi": 0.71,
+      "mean": 0.71
+    },
+    {
+      "year": 2033,
+      "lo": 0.62,
+      "hi": 0.71,
+      "mean": 0.66
+    },
+    {
+      "year": 2034,
+      "lo": 0.67,
+      "hi": 0.72,
+      "mean": 0.69
+    },
+    {
+      "year": 2035,
+      "lo": 0.69,
+      "hi": 0.95,
+      "mean": 0.82
+    },
+    {
+      "year": 2036,
+      "lo": 0.67,
+      "hi": 0.87,
+      "mean": 0.77
+    },
+    {
+      "year": 2037,
+      "lo": 0.89,
+      "hi": 1.02,
+      "mean": 0.95
+    },
+    {
+      "year": 2038,
+      "lo": 0.94,
+      "hi": 1.17,
+      "mean": 1.05
+    },
+    {
+      "year": 2039,
+      "lo": 0.81,
+      "hi": 1.13,
+      "mean": 0.97
+    },
+    {
+      "year": 2040,
+      "lo": 0.74,
+      "hi": 1.31,
+      "mean": 1.02
+    },
+    {
+      "year": 2041,
+      "lo": 0.88,
+      "hi": 1.32,
+      "mean": 1.1
+    },
+    {
+      "year": 2042,
+      "lo": 1.13,
+      "hi": 1.18,
+      "mean": 1.15
+    },
+    {
+      "year": 2043,
+      "lo": 0.93,
+      "hi": 1.32,
+      "mean": 1.12
+    },
+    {
+      "year": 2044,
+      "lo": 0.97,
+      "hi": 1.44,
+      "mean": 1.2
+    },
+    {
+      "year": 2045,
+      "lo": 1.04,
+      "hi": 1.5,
+      "mean": 1.27
+    },
+    {
+      "year": 2046,
+      "lo": 1.17,
+      "hi": 1.57,
+      "mean": 1.37
+    },
+    {
+      "year": 2047,
+      "lo": 1.18,
+      "hi": 1.55,
+      "mean": 1.36
+    },
+    {
+      "year": 2048,
+      "lo": 1.33,
+      "hi": 1.7,
+      "mean": 1.51
+    },
+    {
+      "year": 2049,
+      "lo": 1.24,
+      "hi": 1.74,
+      "mean": 1.49
+    },
+    {
+      "year": 2050,
+      "lo": 1.31,
+      "hi": 1.78,
+      "mean": 1.54
+    }
+  ]
+}

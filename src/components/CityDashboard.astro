@@ -4,6 +4,7 @@
 //   • this year vs the 1991-2020 normal (daily band)   • monthly anomaly heatmap
 //   • the city's own annual warming line
 import index from "../data/cities-index.json";
+import projection from "../data/projection.json";
 import Explainer from "./Explainer.astro";
 
 const cities = index.cities as Array<{
@@ -20,6 +21,7 @@ const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <section class="section city-dash" data-default={defaultCity} data-default-name={defaultCityName}>
+  <script type="application/json" data-projection set:html={JSON.stringify(projection)}></script>
   <div class="city-head">
     <div class="section-head">
       <p class="eyebrow">Your city</p>
@@ -84,14 +86,25 @@ const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name));
         </Explainer>
       </div>
       <div class="panel">
-        <h3>The long trend</h3>
-        <p class="hint">Annual average temperature vs the 1991–2020 normal, with a ten-year trend.</p>
+        <h3>The long trend, and the road to 2050</h3>
+        <p class="hint">Annual average temperature vs the 1991–2020 normal, with a ten-year trend
+          and the CMIP6 climate-model projection ahead.</p>
         <div class="chart annual" data-annual></div>
         <Explainer>
           The same city, zoomed out to a single number a year. The thin jagged line is each year's
           wobble; the thick soft band underneath is the ten-year drift. <strong>The wobble is
           weather. The drift is climate.</strong> A cool year here and there is normal. The slow,
           steady rise of the band beneath them is the part that doesn't reverse.
+        </Explainer>
+        <Explainer tag="About that projection cone">
+          The dashed line and shaded cone after today are <strong>not a forecast for this exact
+          city</strong>. They're the CMIP6 climate models' projection for <strong>India as a
+          whole</strong> — the range between an intermediate (SSP2-4.5) and a high (SSP5-8.5)
+          emissions path — added on top of where this city sits now. Climate models work at a
+          coarse, roughly 25&nbsp;km grid, so a single city's future essentially tracks its
+          region's; treat the cone as <strong>"how much hotter the neighbourhood gets,"</strong>
+          not a number for your street. The cone widens because the further out you go, the more
+          our emissions choices (not the science) decide the outcome.
         </Explainer>
       </div>
     </div>
@@ -223,6 +236,11 @@ const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name));
     const c = a[1].map((ai, i) => Math.round(ai + (b[1][i] - ai) * f));
     return `rgb(${c[0]},${c[1]},${c[2]})`;
   }
+
+  // India-scale CMIP6 projection (embedded once), overlaid on every city as regional
+  // context. Re-anchored per city to its current level in renderAnnual.
+  const NAT_PROJ: { annual: { year: number; lo: number; hi: number; mean: number }[] } | null =
+    (() => { try { return JSON.parse(document.querySelector("[data-projection]")?.textContent || "null"); } catch { return null; } })();
 
   function initCityDash(root: HTMLElement) {
     const combo = root.querySelector("[data-combo]") as HTMLElement;
@@ -494,10 +512,26 @@ const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name));
       const W = 940, H = 300, M = { t: 14, r: 14, b: 26, l: 36 };
       const iw = W - M.l - M.r, ih = H - M.t - M.b;
       const lastObs = data[data.length - 1];
-      // CMIP6 projection (high-emissions): only the part beyond the observed record,
-      // so the ribbon visually continues the city's own line into the future.
-      const proj = (d.projection?.annual || []).filter((p: any) => p.year > lastObs.year) as
-        { year: number; mean: number; lo: number; hi: number }[];
+      // city's smoothed "now" level (last ~10-yr mean) — the anchor for the projection cone
+      const smWin = data.slice(Math.max(0, data.length - 10));
+      const cityNow = smWin.reduce((s: number, p: any) => s + p.value, 0) / smWin.length;
+      // India-scale CMIP6 projection, re-anchored to this city's current level: we add the
+      // projected *regional rise* on top of where the city is now, so the cone continues
+      // its own line and fans out with scenario uncertainty (SSP2-4.5 ↔ SSP5-8.5).
+      const natAnnual = (d.projection?.annual?.length ? d.projection.annual : NAT_PROJ?.annual) as
+        { year: number; lo: number; hi: number; mean: number }[] | undefined;
+      let proj: { year: number; mean: number; lo: number; hi: number }[] = [];
+      if (natAnnual && natAnnual.length) {
+        const anchor = natAnnual.find((p) => p.year === lastObs.year)
+          || natAnnual.reduce((best, p) => Math.abs(p.year - lastObs.year) < Math.abs(best.year - lastObs.year) ? p : best);
+        const r = (v: number) => Math.round(v * 100) / 100;
+        proj = natAnnual.filter((p) => p.year > lastObs.year).map((p) => ({
+          year: p.year,
+          mean: r(cityNow + (p.mean - anchor.mean)),
+          lo: r(cityNow + (p.lo - anchor.lo)),
+          hi: r(cityNow + (p.hi - anchor.hi)),
+        }));
+      }
       const ys = data.map((p: any) => p.year), vs = data.map((p: any) => p.value);
       const y0 = Math.min(...ys);
       const y1 = Math.max(...ys, ...proj.map((p) => p.year));
@@ -516,8 +550,8 @@ const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name));
       for (let yr = Math.ceil(y0 / xStep) * xStep; yr <= y1; yr += xStep) E("text", { x: x(yr), y: H - 8, "text-anchor": "middle", class: "cax" }, svg).textContent = String(yr);
       // projection band: multi-model spread ribbon + dashed ensemble-mean, drawn first (behind observed)
       if (proj.length) {
-        // anchor the ribbon/mean to the last observed point so they visually continue the line
-        const seq = [{ year: lastObs.year, mean: lastObs.value, lo: lastObs.value, hi: lastObs.value }, ...proj];
+        // cone starts at the city's current level (cityNow) and fans out into the future
+        const seq = [{ year: lastObs.year, mean: cityNow, lo: cityNow, hi: cityNow }, ...proj];
         const top = seq.map((p) => `${x(p.year).toFixed(1)},${y(p.hi).toFixed(1)}`);
         const bot = seq.map((p) => `${x(p.year).toFixed(1)},${y(p.lo).toFixed(1)}`).reverse();
         E("polygon", { points: [...top, ...bot].join(" "), fill: "#cf4321", "fill-opacity": ".10", stroke: "none" }, svg);
@@ -525,10 +559,10 @@ const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name));
           fill: "none", stroke: "#cf4321", "stroke-width": 1.6, "stroke-dasharray": "5 4", "stroke-opacity": ".75" }, svg);
         // "now" divider + label
         E("line", { x1: x(lastObs.year), x2: x(lastObs.year), y1: M.t, y2: H - M.b, stroke: "#bbb", "stroke-width": 1, "stroke-dasharray": "2 3" }, svg);
-        E("text", { x: x(lastObs.year) + 5, y: M.t + 11, class: "cax", "text-anchor": "start" }, svg).textContent = "projection →";
+        E("text", { x: x(lastObs.year) + 5, y: M.t + 11, class: "cax", "text-anchor": "start" }, svg).textContent = "India CMIP6 projection →";
         const end = proj[proj.length - 1];
         E("text", { x: x(end.year), y: y(end.hi) - 6, class: "cax", "text-anchor": "end", "font-weight": "600", fill: "#cf4321" }, svg)
-          .textContent = `${end.year}: +${end.mean}°C`;
+          .textContent = `${end.year}: ${end.mean > 0 ? "+" : ""}${end.mean}°C`;
       }
       // 10-yr smooth (observed)
       const sm = data.map((p: any, i: number) => {
