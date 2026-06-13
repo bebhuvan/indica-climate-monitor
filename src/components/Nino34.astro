@@ -1,0 +1,204 @@
+---
+// Niño-3.4 / ONI observed record (3-month running SST anomaly), 1990→present.
+// Red fill above +0.5°C (El Niño), blue below −0.5°C (La Niña). The forecast cone
+// is a separate feed (not yet wired) — this is the observed line only.
+import enso from "../data/enso.json";
+import advisory from "../data/enso-advisory.json";
+import Explainer from "./Explainer.astro";
+const { nino34, current, source, asOf } = enso;
+const adv = advisory;
+const fc = adv.forecast;
+
+const SEAS = ["DJF", "JFM", "FMA", "MAM", "AMJ", "MJJ", "JJA", "JAS", "ASO", "SON", "OND", "NDJ"];
+const W = 1000, H = 380, M = { t: 18, r: 64, b: 30, l: 42 };
+const iw = W - M.l - M.r, ih = H - M.t - M.b;
+const t0 = nino34[0].t, t1 = nino34[nino34.length - 1].t;
+const vLo = -2.6, vHi = 3.0;
+const x = (t: number) => M.l + ((t - t0) / (t1 - t0)) * iw;
+const y = (v: number) => M.t + ((vHi - v) / (vHi - vLo)) * ih;
+
+const line = nino34.map((p: any, i: number) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
+function segs(test: (v: number) => boolean) {
+  const out: any[] = []; let cur: any = null;
+  for (const p of nino34) { if (test(p.v)) { (cur ??= []).push(p); } else if (cur) { out.push(cur); cur = null; } }
+  if (cur) out.push(cur); return out;
+}
+function area(seg: any[], thr: number) {
+  let d = `M${x(seg[0].t).toFixed(1)},${y(thr).toFixed(1)}`;
+  for (const p of seg) d += `L${x(p.t).toFixed(1)},${y(p.v).toFixed(1)}`;
+  d += `L${x(seg[seg.length - 1].t).toFixed(1)},${y(thr).toFixed(1)}Z`; return d;
+}
+const redAreas = segs((v) => v > 0.5).map((s) => area(s, 0.5));
+const blueAreas = segs((v) => v < -0.5).map((s) => area(s, -0.5));
+
+const yTicks = [-2, -1, 0, 1, 2, 3];
+const xTicks: number[] = [];
+for (let yr = 1990; yr <= Math.ceil(t1); yr += 5) xTicks.push(yr);
+const last = nino34[nino34.length - 1];
+const phaseWord = current.phase === "El Nino" ? "El Niño" : current.phase === "La Nina" ? "La Niña" : "Neutral";
+const asOfLabel = `${current.season} ${current.year}`;
+// forecast annotation geometry (categorical arrow, not a numeric plume)
+const xEnd = x(last.t);
+const yWeekly = adv.weeklyNino34 != null ? y(adv.weeklyNino34) : null;
+const fcTipX = W - 12, fcTipY = y(2.35);
+---
+
+<section class="section nino34">
+  <div class="section-head">
+    <p class="eyebrow">The Pacific's pulse</p>
+    <h2>El Niño and La Niña, the master switch</h2>
+    <p class="standfirst">
+      Sea-surface temperature in the central Pacific (the Niño-3.4 region), as a difference from
+      normal. Above the warm line is <strong>El Niño</strong>; below the cool line is
+      <strong>La Niña</strong>. This one patch of ocean nudges weather worldwide — including India's monsoon.
+    </p>
+  </div>
+
+  <p class="now-readout mono">
+    <span class="dot live" data-phase="El Nino"></span>
+    NOAA <b>{adv.status}</b> ({adv.issued}) — El Niño underway, weekly Niño-3.4 <b>+{adv.weeklyNino34}°C</b> and strengthening.
+    {fc && <span class="asof">· {fc.probability}% chance of a <b class="vs">{fc.strength}</b> El Niño by {fc.season} 2026-27</span>}
+  </p>
+  <p class="oni-note mono">The slower 3-month ONI still reads {current.v > 0 ? "+" : ""}{current.v}°C ({phaseWord}) for {asOfLabel} — it lags the fast-rising weekly value, which is why a chart built on ONI alone looks calm.</p>
+
+  <figure class="nino-chart" data-points={JSON.stringify(nino34)}>
+    <div class="plot">
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Niño 3.4 sea-surface temperature anomaly, 1990 to present">
+        {yTicks.map((v) => (
+          <g>
+            <line class={v === 0 ? "grid zero" : "grid"} x1={M.l} x2={W - M.r} y1={y(v)} y2={y(v)} />
+            <text x={M.l - 7} y={y(v)} dy="0.32em" text-anchor="end" class="cax">{v > 0 ? `+${v}` : v}</text>
+          </g>
+        ))}
+        <!-- ±0.5 thresholds -->
+        <line class="thr" x1={M.l} x2={W - M.r} y1={y(0.5)} y2={y(0.5)} />
+        <line class="thr" x1={M.l} x2={W - M.r} y1={y(-0.5)} y2={y(-0.5)} />
+        {xTicks.map((yr) => (<text x={x(yr)} y={H - 11} text-anchor="middle" class="cax">{yr}</text>))}
+
+        {redAreas.map((d) => <path d={d} fill="rgba(207,67,33,0.30)" stroke="none" />)}
+        {blueAreas.map((d) => <path d={d} fill="rgba(42,125,163,0.26)" stroke="none" />)}
+        <path d={line} fill="none" stroke="#3a322c" stroke-width="1.4" stroke-linejoin="round" />
+
+        <!-- ONI 3-month end (lagging, muted) -->
+        <circle cx={xEnd} cy={y(last.v)} r="3" fill="#9a8e7e" />
+        <!-- forecast annotation: weekly value + official outlook arrow (categorical) -->
+        {yWeekly != null && (
+          <g class="forecast">
+            <line class="fc-div" x1={xEnd} x2={xEnd} y1={M.t} y2={H - M.b} />
+            <line class="fc-arrow" x1={xEnd} y1={yWeekly} x2={fcTipX} y2={fcTipY} />
+            <polygon class="fc-head" points={`${fcTipX},${fcTipY} ${fcTipX - 9},${fcTipY + 1} ${fcTipX - 5},${fcTipY + 8}`} />
+            <circle cx={xEnd} cy={yWeekly} r="4.5" fill="#cf4321" stroke="#fff" stroke-width="1.5" />
+            <text x={xEnd - 7} y={yWeekly - 8} text-anchor="end" class="cax wklbl">+{adv.weeklyNino34}° now (weekly)</text>
+            {fc && (
+              <text x={fcTipX} y={fcTipY - 14} text-anchor="end" class="fc-lbl">
+                <tspan x={fcTipX} dy="0">{fc.probability}% chance</tspan>
+                <tspan x={fcTipX} dy="13">{fc.strength}</tspan>
+                <tspan x={fcTipX} dy="13">by winter →</tspan>
+              </text>
+            )}
+          </g>
+        )}
+
+        <g class="marker" style="opacity:0">
+          <line class="mline" y1={M.t} y2={H - M.b} stroke="#999" stroke-width="1" stroke-dasharray="3 3" />
+          <circle class="mdot" r="3.5" fill="#cf4321" stroke="#fff" stroke-width="1.4" />
+        </g>
+        <rect class="capture" x={M.l} y={M.t} width={iw} height={ih} fill="transparent" />
+      </svg>
+      <div class="tip" hidden></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:rgba(207,67,33,0.55)"></i>El Niño (&gt; +0.5°C)</span>
+      <span><i style="background:rgba(42,125,163,0.5)"></i>La Niña (&lt; −0.5°C)</span>
+      <span class="ftnote">dashed arrow = NOAA official outlook (categorical, not a numeric plume)</span>
+    </div>
+  </figure>
+  <p class="fignote">
+    Source: <a href={source.url} target="_blank" rel="noopener">{source.name}</a>, Niño-3.4 3-month
+    running anomaly. Current through {asOfLabel}{asOf ? `, fetched ${new Date(asOf).toISOString().slice(0, 10)}` : ""}.
+  </p>
+
+  <Explainer>
+    Forget the jargon. There's a stretch of the Pacific near the equator that runs a fever every
+    few years. When it's hot (<strong>El Niño</strong>, the red humps), it shoves the world's
+    rain-belts around and tends to starve India's monsoon; when it's cool (<strong>La Niña</strong>,
+    the blue dips), the monsoon usually does well. As of June 2026 NOAA has officially declared
+    <strong>El Niño underway and strengthening</strong>, with a real chance of a top-tier event by
+    winter. One catch worth knowing: the smooth grey line is the 3-month *average* (ONI), which
+    lags — the up-to-the-week reading is already higher, which is why the dashed arrow climbs.
+    Even a strong El Niño <strong>tilts the odds, it doesn't dictate</strong> any one monsoon.
+  </Explainer>
+</section>
+
+<style>
+  .now-readout { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 6px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .now-readout b { font-weight: 600; color: var(--ink); }
+  .now-readout b.vs { color: var(--ember); text-transform: uppercase; letter-spacing: 0.03em; }
+  .now-readout .asof { color: var(--ink-soft); }
+  .now-readout .dot { width: 9px; height: 9px; border-radius: 50%; background: #b9aa9b; align-self: center; }
+  .now-readout .dot[data-phase="El Nino"] { background: var(--ember); }
+  .now-readout .dot.live { box-shadow: 0 0 0 0 rgba(207,67,33,.5); animation: pulse 2.4s var(--ease) infinite; }
+  .oni-note { font-size: 12px; color: var(--ink-faint); margin: 0 0 16px; max-width: 70ch; }
+  .nino-chart .fc-div { stroke: #d8ccbf; stroke-width: 1; stroke-dasharray: 2 3; }
+  .nino-chart .fc-arrow { stroke: var(--ember); stroke-width: 1.8; stroke-dasharray: 5 4; }
+  .nino-chart .fc-head { fill: var(--ember); }
+  .nino-chart .wklbl { fill: var(--ember); font-weight: 600; }
+  .nino-chart .fc-lbl { font-family: var(--mono); font-size: 10.5px; fill: var(--ember-deep); font-weight: 600; }
+  .nino-chart { margin: 0; }
+  .nino-chart .plot { position: relative; }
+  .nino-chart svg { display: block; width: 100%; height: auto; }
+  .nino-chart .thr { stroke: #c9bcae; stroke-width: 1; stroke-dasharray: 4 4; }
+  .nino-chart .nowlbl { fill: var(--ink-soft); font-weight: 600; }
+  .nino-chart .capture { cursor: crosshair; }
+  .nino-chart .legend { display: flex; gap: 20px; margin-top: 12px; align-items: center;
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); flex-wrap: wrap; }
+  .nino-chart .legend i { display: inline-block; width: 14px; height: 11px; border-radius: 2px; vertical-align: middle; margin-right: 7px; }
+  .nino-chart .legend .ftnote { color: var(--ink-faint); font-style: normal; }
+  .nino-chart .tip {
+    position: absolute; pointer-events: none; transform: translate(-50%, -120%);
+    background: var(--ink); color: #fff; padding: 7px 10px; border-radius: 8px;
+    font-family: var(--mono); font-size: 11.5px; line-height: 1.45; white-space: nowrap;
+    box-shadow: 0 6px 20px -8px rgba(27,22,19,.5); z-index: 5;
+  }
+  .nino-chart .tip b { font-weight: 600; }
+</style>
+
+<script>
+  const SEAS = ["DJF", "JFM", "FMA", "MAM", "AMJ", "MJJ", "JJA", "JAS", "ASO", "SON", "OND", "NDJ"];
+  function initNino(fig: HTMLElement) {
+    const svg = fig.querySelector("svg") as SVGSVGElement;
+    const cap = fig.querySelector(".capture") as SVGRectElement;
+    const marker = fig.querySelector(".marker") as SVGGElement;
+    const mline = fig.querySelector(".mline") as SVGLineElement;
+    const mdot = fig.querySelector(".mdot") as SVGCircleElement;
+    const tip = fig.querySelector(".tip") as HTMLElement;
+    const pts = JSON.parse(fig.dataset.points || "[]") as { t: number; v: number }[];
+    if (!pts.length) return;
+    const vb = svg.viewBox.baseVal;
+    const xOf = (t: number) => { /* recompute from data extent in viewBox space */
+      const t0 = pts[0].t, t1 = pts[pts.length - 1].t;
+      return 42 + ((t - t0) / (t1 - t0)) * (1000 - 64 - 42);
+    };
+    const yOf = (v: number) => 18 + ((3 - v) / (3 - -2.6)) * (380 - 18 - 30);
+    cap.addEventListener("pointermove", (evt: any) => {
+      const p = svg.createSVGPoint(); p.x = evt.clientX; p.y = evt.clientY;
+      const loc = p.matrixTransform(svg.getScreenCTM()!.inverse());
+      let best = pts[0], bd = Infinity;
+      for (const pt of pts) { const dd = Math.abs(xOf(pt.t) - loc.x); if (dd < bd) { bd = dd; best = pt; } }
+      const yr = Math.floor(best.t), si = Math.round((best.t - yr) * 12);
+      const phase = best.v > 0.5 ? "El Niño" : best.v < -0.5 ? "La Niña" : "Neutral";
+      const col = best.v > 0.5 ? "#cf4321" : best.v < -0.5 ? "#2a7da3" : "#9a8e7e";
+      marker.style.opacity = "1";
+      mline.setAttribute("x1", String(xOf(best.t))); mline.setAttribute("x2", String(xOf(best.t)));
+      mdot.setAttribute("cx", String(xOf(best.t))); mdot.setAttribute("cy", String(yOf(best.v)));
+      mdot.setAttribute("fill", col);
+      tip.innerHTML = `<b>${SEAS[si] || ""} ${yr}</b><br>${best.v > 0 ? "+" : ""}${best.v}°C · <span style="color:${col}">${phase}</span>`;
+      const rect = svg.getBoundingClientRect();
+      tip.style.left = `${(xOf(best.t) / vb.width) * rect.width}px`;
+      tip.style.top = `${(yOf(best.v) / vb.height) * rect.height}px`;
+      tip.hidden = false;
+    });
+    cap.addEventListener("pointerleave", () => { marker.style.opacity = "0"; tip.hidden = true; });
+  }
+  document.querySelectorAll<HTMLElement>(".nino-chart").forEach(initNino);
+</script>

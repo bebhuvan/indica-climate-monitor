@@ -1,0 +1,76 @@
+---
+// Warming stripes: one vertical band per year, coloured by temperature anomaly.
+// Stretched SVG (preserveAspectRatio="none") so it fills any width; year ticks
+// are laid out as HTML underneath so the type never distorts.
+interface Pt { year: number; value: number }
+interface Props {
+  data: Pt[];
+  clamp?: number;
+  label?: string;
+  height?: number;
+  variant?: "full" | "ribbon";
+  animate?: boolean;
+}
+const { data, clamp = 1.0, label, height = 120, variant = "full", animate = false } = Astro.props;
+
+// Soft-but-bright diverging ramp: teal-blue → cream → ember.
+const STOPS: [number, [number, number, number]][] = [
+  [-1.0, [31, 111, 139]],
+  [-0.5, [116, 179, 201]],
+  [0.0, [242, 236, 226]],
+  [0.5, [232, 161, 75]],
+  [1.0, [194, 59, 34]],
+];
+function colour(v: number): string {
+  const t = Math.max(-1, Math.min(1, v / clamp));
+  let a = STOPS[0], b = STOPS[STOPS.length - 1];
+  for (let i = 0; i < STOPS.length - 1; i++) {
+    if (t >= STOPS[i][0] && t <= STOPS[i + 1][0]) { a = STOPS[i]; b = STOPS[i + 1]; break; }
+  }
+  const f = (t - a[0]) / (b[0] - a[0] || 1);
+  const c = a[1].map((ai, i) => Math.round(ai + (b[1][i] - ai) * f));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+
+const n = data.length;
+const first = data[0].year;
+const last = data[n - 1].year;
+const ticks = variant === "ribbon"
+  ? data.map((d, i) => ({ ...d, i })).filter((d) => d.year % 50 === 0)
+  : data.map((d, i) => ({ ...d, i })).filter((d) => d.year % 25 === 0);
+---
+
+<figure class="stripes" style={`--h:${height}px`}>
+  <svg viewBox={`0 0 ${n} 100`} preserveAspectRatio="none" role="img"
+       class={animate ? "wipe" : ""}
+       aria-label={`Warming stripes for India, ${first} to ${last}`}>
+    {data.map((d, i) => (
+      <rect x={i} y="0" width="1.02" height="100" fill={colour(d.value)} />
+    ))}
+  </svg>
+  <div class="ticks">
+    {ticks.map((t) => (
+      <span class="tick" style={`left:${((t.i + 0.5) / n) * 100}%`}>{t.year}</span>
+    ))}
+    <span class="tick edge" style="left:0">{first}</span>
+    <span class="tick edge right" style="left:100%">{last}</span>
+  </div>
+  {label && <figcaption>{label}</figcaption>}
+</figure>
+
+<style>
+  .stripes { margin: 0; }
+  .stripes svg {
+    display: block; width: 100%; height: var(--h, 120px);
+    border-radius: 5px;
+    box-shadow: 0 1px 0 rgba(27,22,19,0.04), 0 10px 24px -18px rgba(27,22,19,0.4);
+  }
+  .ticks {
+    position: relative; height: 1.3em; margin-top: 8px;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-faint);
+  }
+  .tick { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+  .tick.edge { color: var(--ink-soft); }
+  .tick.edge.right { transform: translateX(-100%); }
+  figcaption { margin-top: 12px; font-size: 13px; color: var(--ink-faint); }
+</style>

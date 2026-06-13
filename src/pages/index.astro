@@ -1,0 +1,168 @@
+---
+import Base from "../layouts/Base.astro";
+import national from "../data/national.json";
+import AnomalyLine from "../components/AnomalyLine.astro";
+import WarmingStripes from "../components/WarmingStripes.astro";
+import IndiaMap from "../components/IndiaMap.astro";
+import Nino34 from "../components/Nino34.astro";
+import EnsoMonsoon from "../components/EnsoMonsoon.astro";
+import CityDashboard from "../components/CityDashboard.astro";
+import Explainer from "../components/Explainer.astro";
+
+const { latest, warmest, top10RecentCount, recentWindowStart, warmingSinceStart,
+        firstDecade, lastDecade, decadal, sources } = national;
+
+const sign = (v: number) => (v > 0 ? `+${v.toFixed(2)}` : v.toFixed(2));
+const ord = (n: number) => {
+  const s = ["th", "st", "nd", "rd"], v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+};
+
+const bk0 = national.berkeley[0].year;
+const bk1 = national.berkeley[national.berkeley.length - 1].year;
+const dvals = decadal.map((d: any) => d.mean);
+const dMax = Math.max(Math.abs(Math.min(...dvals)), Math.abs(Math.max(...dvals)), 0.5);
+---
+
+<Base>
+  <!-- ======================= HERO ======================= -->
+  <section class="hero">
+    <p class="kicker reveal" style="animation-delay:40ms">A live temperature record for India</p>
+    <h1 class="reveal" style="animation-delay:120ms">How hot is India getting?</h1>
+    <p class="lead reveal" style="animation-delay:220ms">
+      Two centuries of warming, the country today, and your own city — day by day.
+      Built on the same reanalysis the world's monitors use: <strong>ERA5 (Copernicus)</strong>,
+      <strong>Berkeley Earth</strong> and <strong>Open-Meteo</strong>.
+    </p>
+
+    <div class="stripe-ribbon reveal" style="animation-delay:340ms">
+      <div class="rail">
+        <span class="what">Every year since {bk0}</span>
+        <span>cool → warm, vs the mid-century average</span>
+      </div>
+      <WarmingStripes data={national.berkeley} clamp={1.0} height={104} variant="ribbon" animate={true} />
+    </div>
+
+    <div class="statband reveal" style="animation-delay:460ms">
+      <div class="cell warm">
+        <div class="v">{warmest.year}</div>
+        <div class="k">India's warmest year on record, at {sign(warmest.anomaly)}°C vs the 1991–2020 normal</div>
+      </div>
+      <div class="cell">
+        <div class="v">{sign(warmingSinceStart)}<span class="sub">°C</span></div>
+        <div class="k">warmer in the {lastDecade.label} than the {firstDecade.label}, India-wide</div>
+      </div>
+      <div class="cell">
+        <div class="v">{top10RecentCount}<span class="sub">/10</span></div>
+        <div class="k">of the ten warmest years have come since {recentWindowStart}</div>
+      </div>
+      <div class="cell">
+        <div class="v">{ord(latest.rank)}</div>
+        <div class="k">where <b>{latest.year}</b>, the latest full year, ranks of {latest.ofYears}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MODERN RECORD ======================= -->
+  <section class="section">
+    <div class="section-head">
+      <p class="eyebrow">The modern record</p>
+      <h2>Eighty years of warming, one line</h2>
+      <p class="standfirst">
+        India's annual average temperature as a difference from the 1991–2020 normal. Each point is
+        a year; the soft band is a ten-year trend. Hover for any year.
+      </p>
+    </div>
+    <figure>
+      <AnomalyLine data={national.era5} unit="°C" highlightYear={latest.year} />
+      <figcaption class="fignote">
+        Source: <a href={sources.era5.url} target="_blank" rel="noopener">ERA5 / Copernicus</a>,
+        all-India area average, {national.era5[0].year}–{latest.year}.
+      </figcaption>
+    </figure>
+    <Explainer>
+      Each dot is one year. Zero is "normal" for 1991 to 2020, so a dot above the line means
+      that year ran hotter than the recent normal. Notice the line doesn't bounce around zero
+      any more: it has <strong>climbed above and stayed there</strong>. India now spends most
+      years warmer than normal, not cooler. That shift is the climate changing, not the weather.
+    </Explainer>
+  </section>
+
+  <!-- ======================= INDIA MAP ======================= -->
+  <IndiaMap />
+
+  <!-- ======================= DECADES ======================= -->
+  <section class="section">
+    <div class="section-head">
+      <p class="eyebrow">Decade by decade</p>
+      <h2>The line that won't go back down</h2>
+      <p class="standfirst">Average anomaly per decade (ERA5, vs 1991–2020). Cool blue gives way to warm ember.</p>
+    </div>
+    <div class="decades">
+      {decadal.map((d: any) => {
+        const w = (Math.abs(d.mean) / dMax) * 50;
+        const pos = d.mean >= 0;
+        return (
+          <div class="drow">
+            <span class="dlab mono">{d.label}</span>
+            <div class="dtrack">
+              <span class="dbar" style={`width:${w}%; ${pos ? "left:50%" : "right:50%"}; background:${pos ? "var(--r-hot)" : "var(--r-cold)"}`}></span>
+              <span class="dzero"></span>
+            </div>
+            <span class="dval mono">{sign(d.mean)}</span>
+          </div>
+        );
+      })}
+    </div>
+    <Explainer>
+      A single hot year could be a fluke, so we squashed every year into its decade and let the
+      noise cancel out. Read the bars top to bottom: cool, cool, cool, and then around the
+      <strong>2000s they flip and keep going</strong>. That flip is the moment India's "normal"
+      stopped being the old normal. Decades barely move on their own, so when they do, it counts.
+    </Explainer>
+  </section>
+
+  <!-- ======================= NIÑO 3.4 ======================= -->
+  <Nino34 />
+
+  <!-- ======================= ENSO / MONSOON ======================= -->
+  <EnsoMonsoon />
+
+  <!-- ======================= CITY DASHBOARD ======================= -->
+  <CityDashboard />
+
+  <!-- ======================= METHODOLOGY ======================= -->
+  <section class="methodology">
+    <p class="eyebrow kicker">How this is built</p>
+    <p>
+      A static page rebuilt by a weekly job, so the figures stay current. Three independent datasets,
+      on purpose: <strong>Berkeley Earth</strong> for the deep historical record (back to {bk0}),
+      <strong>ERA5 / Copernicus</strong> reanalysis for the modern national record and the year
+      ranking, and <strong>Open-Meteo</strong>'s ERA5-backed daily reanalysis for the 38 cities.
+      They use different baselines (1951–1980 and 1991–2020), so anomaly numbers are not directly
+      comparable — each chart states its own.
+    </p>
+    <p>
+      City records start in <strong>1950</strong> (ERA5's earlier back-extension is less reliable);
+      daily means are the reanalysis values, never reconstructed from the day's high and low.
+    </p>
+    <ul class="sourcelist">
+      <li><a href={sources.era5.url} target="_blank" rel="noopener">ERA5 / Copernicus Climate Data Store</a> — national record + ranking</li>
+      <li><a href={sources.berkeley.url} target="_blank" rel="noopener">Berkeley Earth</a> — long historical record</li>
+      <li><a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" rel="noopener">Open-Meteo (ERA5)</a> — daily weather for 38 cities</li>
+      <li><a href="https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt" target="_blank" rel="noopener">NOAA CPC — Oceanic Niño Index</a> — El Niño / La Niña state, with IMD monsoon-rainfall departures</li>
+    </ul>
+    <p class="gen">Data generated {new Date(national.generatedAt).toISOString().slice(0, 10)} · national record + 38 cities · beta</p>
+  </section>
+</Base>
+
+<style>
+  .decades { display: flex; flex-direction: column; gap: 9px;
+    font-family: var(--mono); font-size: 13px; }
+  .drow { display: grid; grid-template-columns: 58px 1fr 56px; align-items: center; gap: 14px; }
+  .dlab { color: var(--ink-faint); }
+  .dtrack { position: relative; height: 18px; background: var(--panel); border-radius: 3px; }
+  .dbar { position: absolute; top: 3px; height: 12px; border-radius: 2px; transition: width .6s var(--ease); }
+  .dzero { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: #d8ccbf; }
+  .dval { text-align: right; color: var(--ink); }
+</style>

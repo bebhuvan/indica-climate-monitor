@@ -1,0 +1,1337 @@
+{
+  "generatedAt": "2026-06-13T06:14:48.125Z",
+  "cities": [
+    {
+      "id": "agartala",
+      "name": "Agartala",
+      "region": "Northeast",
+      "lat": 23.8361,
+      "lon": 91.2794,
+      "latestAnomaly": 0.74,
+      "latestYear": 2026
+    },
+    {
+      "id": "agra",
+      "name": "Agra",
+      "region": "North",
+      "lat": 27.1833,
+      "lon": 78.0167,
+      "latestAnomaly": -0.15,
+      "latestYear": 2026
+    },
+    {
+      "id": "ahmedabad",
+      "name": "Ahmedabad",
+      "region": "West",
+      "lat": 23.0258,
+      "lon": 72.5873,
+      "latestAnomaly": -0.13,
+      "latestYear": 2026
+    },
+    {
+      "id": "aizawl",
+      "name": "Aizawl",
+      "region": "Northeast",
+      "lat": 23.7289,
+      "lon": 92.7179,
+      "latestAnomaly": 0.82,
+      "latestYear": 2026
+    },
+    {
+      "id": "ajmer",
+      "name": "Ajmer",
+      "region": "North",
+      "lat": 26.4521,
+      "lon": 74.6387,
+      "latestAnomaly": -0.16,
+      "latestYear": 2026
+    },
+    {
+      "id": "akola",
+      "name": "Akola",
+      "region": "Central",
+      "lat": 20.7096,
+      "lon": 76.9981,
+      "latestAnomaly": -0.33,
+      "latestYear": 2026
+    },
+    {
+      "id": "aligarh",
+      "name": "Aligarh",
+      "region": "North",
+      "lat": 27.8815,
+      "lon": 78.0746,
+      "latestAnomaly": -0.07,
+      "latestYear": 2026
+    },
+    {
+      "id": "ambattur",
+      "name": "Ambattur",
+      "region": "South",
+      "lat": 13.0982,
+      "lon": 80.1615,
+      "latestAnomaly": 0.46,
+      "latestYear": 2026
+    },
+    {
+      "id": "amravati",
+      "name": "Amravati",
+      "region": "Central",
+      "lat": 20.9333,
+      "lon": 77.75,
+      "latestAnomaly": -0.17,
+      "latestYear": 2026
+    },
+    {
+      "id": "amritsar",
+      "name": "Amritsar",
+      "region": "North",
+      "lat": 31.6223,
+      "lon": 74.8753,
+      "latestAnomaly": 0.29,
+      "latestYear": 2026
+    },
+    {
+      "id": "asansol",
+      "name": "Asansol",
+      "region": "East",
+      "lat": 23.6833,
+      "lon": 86.9833,
+      "latestAnomaly": 0.26,
+      "latestYear": 2026
+    },
+    {
+      "id": "aurangabad",
+      "name": "Aurangabad",
+      "region": "West",
+      "lat": 19.8776,
+      "lon": 75.3423,
+      "latestAnomaly": -0.21,
+      "latestYear": 2026
+    },
+    {
+      "id": "ballari",
+      "name": "Ballari",
+      "region": "South",
+      "lat": 15.142,
+      "lon": 76.924,
+      "latestAnomaly": -0.58,
+      "latestYear": 2026
+    },
+    {
+      "id": "bareilly",
+      "name": "Bareilly",
+      "region": "North",
+      "lat": 28.3668,
+      "lon": 79.4317,
+      "latestAnomaly": -0.16,
+      "latestYear": 2026
+    },
+    {
+      "id": "belagavi",
+      "name": "Belagavi",
+      "region": "West",
+      "lat": 15.8521,
+      "lon": 74.5045,
+      "latestAnomaly": 0.27,
+      "latestYear": 2026
+    },
+    {
+      "id": "bengaluru",
+      "name": "Bengaluru",
+      "region": "South",
+      "lat": 12.9719,
+      "lon": 77.5937,
+      "latestAnomaly": -0.12,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhagalpur",
+      "name": "Bhagalpur",
+      "region": "East",
+      "lat": 25.2445,
+      "lon": 86.9718,
+      "latestAnomaly": 0.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhatpara",
+      "name": "Bhatpara",
+      "region": "East",
+      "lat": 22.8664,
+      "lon": 88.4011,
+      "latestAnomaly": 0.23,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhavnagar",
+      "name": "Bhavnagar",
+      "region": "West",
+      "lat": 21.7629,
+      "lon": 72.1533,
+      "latestAnomaly": -0.54,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhayandar",
+      "name": "Bhayandar",
+      "region": "West",
+      "lat": 19.3016,
+      "lon": 72.8511,
+      "latestAnomaly": 0.47,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhilai",
+      "name": "Bhilai",
+      "region": "Central",
+      "lat": 21.2092,
+      "lon": 81.4285,
+      "latestAnomaly": -0.26,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhiwandi",
+      "name": "Bhiwandi",
+      "region": "West",
+      "lat": 19.3002,
+      "lon": 73.0588,
+      "latestAnomaly": 0.47,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhopal",
+      "name": "Bhopal",
+      "region": "Central",
+      "lat": 23.2547,
+      "lon": 77.4029,
+      "latestAnomaly": -0.67,
+      "latestYear": 2026
+    },
+    {
+      "id": "bhubaneswar",
+      "name": "Bhubaneswar",
+      "region": "East",
+      "lat": 20.2724,
+      "lon": 85.8338,
+      "latestAnomaly": 0.09,
+      "latestYear": 2026
+    },
+    {
+      "id": "bikaner",
+      "name": "Bikaner",
+      "region": "North",
+      "lat": 28.0176,
+      "lon": 73.3149,
+      "latestAnomaly": 0.24,
+      "latestYear": 2026
+    },
+    {
+      "id": "bilimora",
+      "name": "Bilimora",
+      "region": "West",
+      "lat": 20.7696,
+      "lon": 72.9613,
+      "latestAnomaly": 0.39,
+      "latestYear": 2026
+    },
+    {
+      "id": "bokaro",
+      "name": "Bokaro",
+      "region": "East",
+      "lat": 23.6693,
+      "lon": 86.1516,
+      "latestAnomaly": 0.09,
+      "latestYear": 2026
+    },
+    {
+      "id": "borivli",
+      "name": "Borivli",
+      "region": "West",
+      "lat": 19.235,
+      "lon": 72.8598,
+      "latestAnomaly": 0.48,
+      "latestYear": 2026
+    },
+    {
+      "id": "chandigarh",
+      "name": "Chandigarh",
+      "region": "North",
+      "lat": 30.7363,
+      "lon": 76.7884,
+      "latestAnomaly": 0.23,
+      "latestYear": 2026
+    },
+    {
+      "id": "chennai",
+      "name": "Chennai",
+      "region": "South",
+      "lat": 13.0878,
+      "lon": 80.2785,
+      "latestAnomaly": 0.45,
+      "latestYear": 2026
+    },
+    {
+      "id": "coimbatore",
+      "name": "Coimbatore",
+      "region": "South",
+      "lat": 11.0055,
+      "lon": 76.9661,
+      "latestAnomaly": -0.13,
+      "latestYear": 2026
+    },
+    {
+      "id": "cuttack",
+      "name": "Cuttack",
+      "region": "East",
+      "lat": 20.465,
+      "lon": 85.8793,
+      "latestAnomaly": 0.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "davangere",
+      "name": "Davangere",
+      "region": "South",
+      "lat": 14.4669,
+      "lon": 75.9269,
+      "latestAnomaly": -0.5,
+      "latestYear": 2026
+    },
+    {
+      "id": "dehradun",
+      "name": "Dehradun",
+      "region": "North",
+      "lat": 30.3244,
+      "lon": 78.0339,
+      "latestAnomaly": 0.4,
+      "latestYear": 2026
+    },
+    {
+      "id": "delhi",
+      "name": "Delhi",
+      "region": "North",
+      "lat": 28.6519,
+      "lon": 77.2315,
+      "latestAnomaly": -0.18,
+      "latestYear": 2026
+    },
+    {
+      "id": "dhanbad",
+      "name": "Dhanbad",
+      "region": "East",
+      "lat": 23.7976,
+      "lon": 86.4299,
+      "latestAnomaly": 0.15,
+      "latestYear": 2026
+    },
+    {
+      "id": "dharamsala",
+      "name": "Dharamsala",
+      "region": "Himalaya",
+      "lat": 32.2201,
+      "lon": 76.3201,
+      "latestAnomaly": 1.01,
+      "latestYear": 2026
+    },
+    {
+      "id": "dharavi",
+      "name": "Dharavi",
+      "region": "West",
+      "lat": 19.05,
+      "lon": 72.8667,
+      "latestAnomaly": 0.41,
+      "latestYear": 2026
+    },
+    {
+      "id": "dimapur",
+      "name": "Dimapur",
+      "region": "Northeast",
+      "lat": 25.9117,
+      "lon": 93.7217,
+      "latestAnomaly": 1.19,
+      "latestYear": 2026
+    },
+    {
+      "id": "dombivali",
+      "name": "Dombivali",
+      "region": "West",
+      "lat": 19.2167,
+      "lon": 73.0833,
+      "latestAnomaly": 0.48,
+      "latestYear": 2026
+    },
+    {
+      "id": "durgapur",
+      "name": "Durgapur",
+      "region": "East",
+      "lat": 23.5158,
+      "lon": 87.308,
+      "latestAnomaly": 0.26,
+      "latestYear": 2026
+    },
+    {
+      "id": "erode",
+      "name": "Erode",
+      "region": "South",
+      "lat": 11.3428,
+      "lon": 77.7274,
+      "latestAnomaly": -0.29,
+      "latestYear": 2026
+    },
+    {
+      "id": "faridabad",
+      "name": "Faridabad",
+      "region": "North",
+      "lat": 28.4112,
+      "lon": 77.3132,
+      "latestAnomaly": -0.12,
+      "latestYear": 2026
+    },
+    {
+      "id": "gangtok",
+      "name": "Gangtok",
+      "region": "Northeast",
+      "lat": 27.3257,
+      "lon": 88.6122,
+      "latestAnomaly": 0.89,
+      "latestYear": 2026
+    },
+    {
+      "id": "gaya",
+      "name": "Gaya",
+      "region": "East",
+      "lat": 24.7969,
+      "lon": 85.0038,
+      "latestAnomaly": -0.32,
+      "latestYear": 2026
+    },
+    {
+      "id": "ghaziabad",
+      "name": "Ghaziabad",
+      "region": "North",
+      "lat": 28.6654,
+      "lon": 77.4391,
+      "latestAnomaly": -0.16,
+      "latestYear": 2026
+    },
+    {
+      "id": "gorakhpur",
+      "name": "Gorakhpur",
+      "region": "North",
+      "lat": 29.4477,
+      "lon": 75.6721,
+      "latestAnomaly": -0.05,
+      "latestYear": 2026
+    },
+    {
+      "id": "guntur",
+      "name": "Guntur",
+      "region": "South",
+      "lat": 16.2997,
+      "lon": 80.4573,
+      "latestAnomaly": 0.14,
+      "latestYear": 2026
+    },
+    {
+      "id": "gurugram",
+      "name": "Gurugram",
+      "region": "North",
+      "lat": 28.4601,
+      "lon": 77.0263,
+      "latestAnomaly": -0.07,
+      "latestYear": 2026
+    },
+    {
+      "id": "guwahati",
+      "name": "Guwahati",
+      "region": "Northeast",
+      "lat": 26.1844,
+      "lon": 91.7458,
+      "latestAnomaly": 1.06,
+      "latestYear": 2026
+    },
+    {
+      "id": "gwalior",
+      "name": "Gwalior",
+      "region": "North",
+      "lat": 26.2298,
+      "lon": 78.1734,
+      "latestAnomaly": -0.08,
+      "latestYear": 2026
+    },
+    {
+      "id": "howrah",
+      "name": "Howrah",
+      "region": "East",
+      "lat": 22.5769,
+      "lon": 88.3186,
+      "latestAnomaly": 0.19,
+      "latestYear": 2026
+    },
+    {
+      "id": "hubballi",
+      "name": "Hubballi",
+      "region": "South",
+      "lat": 15.3478,
+      "lon": 75.1338,
+      "latestAnomaly": -0.08,
+      "latestYear": 2026
+    },
+    {
+      "id": "hyderabad",
+      "name": "Hyderabad",
+      "region": "South",
+      "lat": 17.384,
+      "lon": 78.4564,
+      "latestAnomaly": -0.77,
+      "latestYear": 2026
+    },
+    {
+      "id": "imphal",
+      "name": "Imphal",
+      "region": "Northeast",
+      "lat": 24.8081,
+      "lon": 93.9442,
+      "latestAnomaly": 1.02,
+      "latestYear": 2026
+    },
+    {
+      "id": "indore",
+      "name": "Indore",
+      "region": "Central",
+      "lat": 22.7179,
+      "lon": 75.8333,
+      "latestAnomaly": -0.58,
+      "latestYear": 2026
+    },
+    {
+      "id": "itanagar",
+      "name": "Itanagar",
+      "region": "Northeast",
+      "lat": 27.0869,
+      "lon": 93.6099,
+      "latestAnomaly": 1.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "jabalpur",
+      "name": "Jabalpur",
+      "region": "Central",
+      "lat": 23.167,
+      "lon": 79.9501,
+      "latestAnomaly": -0.34,
+      "latestYear": 2026
+    },
+    {
+      "id": "jaipur",
+      "name": "Jaipur",
+      "region": "North",
+      "lat": 26.9196,
+      "lon": 75.7878,
+      "latestAnomaly": -0.45,
+      "latestYear": 2026
+    },
+    {
+      "id": "jaisalmer",
+      "name": "Jaisalmer",
+      "region": "North",
+      "lat": 26.9176,
+      "lon": 70.9039,
+      "latestAnomaly": 0.46,
+      "latestYear": 2026
+    },
+    {
+      "id": "jajmau",
+      "name": "Jajmau",
+      "region": "North",
+      "lat": 26.4304,
+      "lon": 80.4095,
+      "latestAnomaly": 0.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "jalandhar",
+      "name": "Jalandhar",
+      "region": "North",
+      "lat": 31.3256,
+      "lon": 75.5792,
+      "latestAnomaly": 0.4,
+      "latestYear": 2026
+    },
+    {
+      "id": "jalgaon",
+      "name": "Jalgaon",
+      "region": "West",
+      "lat": 21.0029,
+      "lon": 75.566,
+      "latestAnomaly": -0.27,
+      "latestYear": 2026
+    },
+    {
+      "id": "jammu",
+      "name": "Jammu",
+      "region": "North",
+      "lat": 32.7353,
+      "lon": 74.8617,
+      "latestAnomaly": 0.88,
+      "latestYear": 2026
+    },
+    {
+      "id": "jamnagar",
+      "name": "Jamnagar",
+      "region": "West",
+      "lat": 22.4729,
+      "lon": 70.0667,
+      "latestAnomaly": 0.13,
+      "latestYear": 2026
+    },
+    {
+      "id": "jamshedpur",
+      "name": "Jamshedpur",
+      "region": "East",
+      "lat": 22.8028,
+      "lon": 86.1855,
+      "latestAnomaly": -0.02,
+      "latestYear": 2026
+    },
+    {
+      "id": "jhansi",
+      "name": "Jhansi",
+      "region": "North",
+      "lat": 25.4589,
+      "lon": 78.5799,
+      "latestAnomaly": -0.27,
+      "latestYear": 2026
+    },
+    {
+      "id": "jodhpur",
+      "name": "Jodhpur",
+      "region": "North",
+      "lat": 26.2684,
+      "lon": 73.0059,
+      "latestAnomaly": -0.18,
+      "latestYear": 2026
+    },
+    {
+      "id": "kakinada",
+      "name": "Kakinada",
+      "region": "South",
+      "lat": 16.9604,
+      "lon": 82.2381,
+      "latestAnomaly": 0.08,
+      "latestYear": 2026
+    },
+    {
+      "id": "kalaburagi",
+      "name": "Kalaburagi",
+      "region": "West",
+      "lat": 17.3358,
+      "lon": 76.8376,
+      "latestAnomaly": -0.59,
+      "latestYear": 2026
+    },
+    {
+      "id": "kallakurichi",
+      "name": "Kallakurichi",
+      "region": "South",
+      "lat": 11.7338,
+      "lon": 78.9592,
+      "latestAnomaly": 0.12,
+      "latestYear": 2026
+    },
+    {
+      "id": "kalyan",
+      "name": "Kalyan",
+      "region": "West",
+      "lat": 19.2437,
+      "lon": 73.1355,
+      "latestAnomaly": 0.45,
+      "latestYear": 2026
+    },
+    {
+      "id": "kanayannur",
+      "name": "Kanayannur",
+      "region": "South",
+      "lat": 9.9667,
+      "lon": 76.2667,
+      "latestAnomaly": 0.04,
+      "latestYear": 2026
+    },
+    {
+      "id": "kanpur",
+      "name": "Kanpur",
+      "region": "North",
+      "lat": 26.4652,
+      "lon": 80.3498,
+      "latestAnomaly": 0.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "karol-bagh",
+      "name": "Karol Bagh",
+      "region": "North",
+      "lat": 28.6514,
+      "lon": 77.1907,
+      "latestAnomaly": -0.19,
+      "latestYear": 2026
+    },
+    {
+      "id": "kochi",
+      "name": "Kochi",
+      "region": "South",
+      "lat": 9.9399,
+      "lon": 76.2602,
+      "latestAnomaly": 0.04,
+      "latestYear": 2026
+    },
+    {
+      "id": "kohima",
+      "name": "Kohima",
+      "region": "Northeast",
+      "lat": 25.6747,
+      "lon": 94.111,
+      "latestAnomaly": 1.14,
+      "latestYear": 2026
+    },
+    {
+      "id": "kolhapur",
+      "name": "Kolhapur",
+      "region": "West",
+      "lat": 16.6956,
+      "lon": 74.2317,
+      "latestAnomaly": 0.27,
+      "latestYear": 2026
+    },
+    {
+      "id": "kolkata",
+      "name": "Kolkata",
+      "region": "East",
+      "lat": 22.5626,
+      "lon": 88.363,
+      "latestAnomaly": 0.19,
+      "latestYear": 2026
+    },
+    {
+      "id": "korba",
+      "name": "Korba",
+      "region": "East",
+      "lat": 22.3458,
+      "lon": 82.6963,
+      "latestAnomaly": -0.28,
+      "latestYear": 2026
+    },
+    {
+      "id": "kota",
+      "name": "Kota",
+      "region": "North",
+      "lat": 25.1825,
+      "lon": 75.8391,
+      "latestAnomaly": -0.44,
+      "latestYear": 2026
+    },
+    {
+      "id": "kozhikode",
+      "name": "Kozhikode",
+      "region": "South",
+      "lat": 11.248,
+      "lon": 75.7804,
+      "latestAnomaly": 0.02,
+      "latestYear": 2026
+    },
+    {
+      "id": "kurnool",
+      "name": "Kurnool",
+      "region": "South",
+      "lat": 15.8289,
+      "lon": 78.036,
+      "latestAnomaly": -0.77,
+      "latestYear": 2026
+    },
+    {
+      "id": "latur",
+      "name": "Latur",
+      "region": "West",
+      "lat": 18.3972,
+      "lon": 76.5678,
+      "latestAnomaly": -0.36,
+      "latestYear": 2026
+    },
+    {
+      "id": "leh",
+      "name": "Leh",
+      "region": "Himalaya",
+      "lat": 34.165,
+      "lon": 77.584,
+      "latestAnomaly": 1.63,
+      "latestYear": 2026
+    },
+    {
+      "id": "loni",
+      "name": "Loni",
+      "region": "North",
+      "lat": 28.7514,
+      "lon": 77.2902,
+      "latestAnomaly": -0.19,
+      "latestYear": 2026
+    },
+    {
+      "id": "lucknow",
+      "name": "Lucknow",
+      "region": "North",
+      "lat": 26.8393,
+      "lon": 80.9231,
+      "latestAnomaly": 0.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "ludhiana",
+      "name": "Ludhiana",
+      "region": "North",
+      "lat": 30.912,
+      "lon": 75.8538,
+      "latestAnomaly": 0.4,
+      "latestYear": 2026
+    },
+    {
+      "id": "madurai",
+      "name": "Madurai",
+      "region": "South",
+      "lat": 9.919,
+      "lon": 78.1195,
+      "latestAnomaly": -0.17,
+      "latestYear": 2026
+    },
+    {
+      "id": "maheshtala",
+      "name": "Maheshtala",
+      "region": "East",
+      "lat": 22.5086,
+      "lon": 88.2532,
+      "latestAnomaly": 0.19,
+      "latestYear": 2026
+    },
+    {
+      "id": "malegaon",
+      "name": "Malegaon",
+      "region": "West",
+      "lat": 20.5497,
+      "lon": 74.5346,
+      "latestAnomaly": -0.38,
+      "latestYear": 2026
+    },
+    {
+      "id": "mangaluru",
+      "name": "Mangaluru",
+      "region": "South",
+      "lat": 12.9172,
+      "lon": 74.856,
+      "latestAnomaly": 0.24,
+      "latestYear": 2026
+    },
+    {
+      "id": "meerut",
+      "name": "Meerut",
+      "region": "North",
+      "lat": 28.98,
+      "lon": 77.7064,
+      "latestAnomaly": -0.17,
+      "latestYear": 2026
+    },
+    {
+      "id": "moradabad",
+      "name": "Moradabad",
+      "region": "North",
+      "lat": 28.8389,
+      "lon": 78.7768,
+      "latestAnomaly": -0.05,
+      "latestYear": 2026
+    },
+    {
+      "id": "mumbai",
+      "name": "Mumbai",
+      "region": "West",
+      "lat": 19.0728,
+      "lon": 72.8826,
+      "latestAnomaly": 0.41,
+      "latestYear": 2026
+    },
+    {
+      "id": "mussoorie",
+      "name": "Mussoorie",
+      "region": "Himalaya",
+      "lat": 30.455,
+      "lon": 78.0707,
+      "latestAnomaly": 0.64,
+      "latestYear": 2026
+    },
+    {
+      "id": "mysuru",
+      "name": "Mysuru",
+      "region": "South",
+      "lat": 12.2979,
+      "lon": 76.6393,
+      "latestAnomaly": -0.1,
+      "latestYear": 2026
+    },
+    {
+      "id": "nagpur",
+      "name": "Nagpur",
+      "region": "Central",
+      "lat": 21.1463,
+      "lon": 79.0849,
+      "latestAnomaly": -0.32,
+      "latestYear": 2026
+    },
+    {
+      "id": "najafgarh",
+      "name": "Najafgarh",
+      "region": "North",
+      "lat": 28.6092,
+      "lon": 76.9798,
+      "latestAnomaly": -0.07,
+      "latestYear": 2026
+    },
+    {
+      "id": "nanded",
+      "name": "Nanded",
+      "region": "Central",
+      "lat": 19.1602,
+      "lon": 77.315,
+      "latestAnomaly": -0.55,
+      "latestYear": 2026
+    },
+    {
+      "id": "narela",
+      "name": "Narela",
+      "region": "North",
+      "lat": 28.8527,
+      "lon": 77.0929,
+      "latestAnomaly": -0.2,
+      "latestYear": 2026
+    },
+    {
+      "id": "nashik",
+      "name": "Nashik",
+      "region": "West",
+      "lat": 19.9973,
+      "lon": 73.791,
+      "latestAnomaly": 0.22,
+      "latestYear": 2026
+    },
+    {
+      "id": "navi-mumbai",
+      "name": "Navi Mumbai",
+      "region": "West",
+      "lat": 19.0368,
+      "lon": 73.0158,
+      "latestAnomaly": 0.41,
+      "latestYear": 2026
+    },
+    {
+      "id": "nellore",
+      "name": "Nellore",
+      "region": "South",
+      "lat": 14.4499,
+      "lon": 79.987,
+      "latestAnomaly": 0.33,
+      "latestYear": 2026
+    },
+    {
+      "id": "nowrangapur",
+      "name": "Nowrangapur",
+      "region": "Central",
+      "lat": 19.2311,
+      "lon": 82.5483,
+      "latestAnomaly": 0.08,
+      "latestYear": 2026
+    },
+    {
+      "id": "patiala",
+      "name": "Patiala",
+      "region": "North",
+      "lat": 30.3362,
+      "lon": 76.3922,
+      "latestAnomaly": 0.26,
+      "latestYear": 2026
+    },
+    {
+      "id": "patna",
+      "name": "Patna",
+      "region": "East",
+      "lat": 25.5941,
+      "lon": 85.1356,
+      "latestAnomaly": -0.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "pimpri",
+      "name": "Pimpri",
+      "region": "West",
+      "lat": 18.6229,
+      "lon": 73.807,
+      "latestAnomaly": 0.42,
+      "latestYear": 2026
+    },
+    {
+      "id": "pimpri-chinchwad",
+      "name": "Pimpri-Chinchwad",
+      "region": "West",
+      "lat": 18.6187,
+      "lon": 73.8037,
+      "latestAnomaly": 0.42,
+      "latestYear": 2026
+    },
+    {
+      "id": "port-blair",
+      "name": "Port Blair",
+      "region": "East",
+      "lat": 11.6661,
+      "lon": 92.7464,
+      "latestAnomaly": 0.26,
+      "latestYear": 2026
+    },
+    {
+      "id": "prayagraj",
+      "name": "Prayagraj",
+      "region": "Central",
+      "lat": 25.4448,
+      "lon": 81.8432,
+      "latestAnomaly": -0.06,
+      "latestYear": 2026
+    },
+    {
+      "id": "puducherry",
+      "name": "Puducherry",
+      "region": "South",
+      "lat": 11.9338,
+      "lon": 79.8298,
+      "latestAnomaly": 0.24,
+      "latestYear": 2026
+    },
+    {
+      "id": "pune",
+      "name": "Pune",
+      "region": "West",
+      "lat": 18.5196,
+      "lon": 73.8554,
+      "latestAnomaly": 0.42,
+      "latestYear": 2026
+    },
+    {
+      "id": "raipur",
+      "name": "Raipur",
+      "region": "Central",
+      "lat": 21.2333,
+      "lon": 81.6333,
+      "latestAnomaly": -0.37,
+      "latestYear": 2026
+    },
+    {
+      "id": "rajkot",
+      "name": "Rajkot",
+      "region": "West",
+      "lat": 22.2916,
+      "lon": 70.7932,
+      "latestAnomaly": 0.02,
+      "latestYear": 2026
+    },
+    {
+      "id": "rajpur-sonarpur",
+      "name": "Rajpur Sonarpur",
+      "region": "East",
+      "lat": 22.4382,
+      "lon": 88.4321,
+      "latestAnomaly": 0.23,
+      "latestYear": 2026
+    },
+    {
+      "id": "ramgundam",
+      "name": "Ramgundam",
+      "region": "Central",
+      "lat": 18.8008,
+      "lon": 79.4521,
+      "latestAnomaly": -0.1,
+      "latestYear": 2026
+    },
+    {
+      "id": "ranchi",
+      "name": "Ranchi",
+      "region": "East",
+      "lat": 23.3432,
+      "lon": 85.3094,
+      "latestAnomaly": -0.08,
+      "latestYear": 2026
+    },
+    {
+      "id": "rasapudipalem",
+      "name": "Rasapudipalem",
+      "region": "East",
+      "lat": 17.7331,
+      "lon": 83.3162,
+      "latestAnomaly": 0.14,
+      "latestYear": 2026
+    },
+    {
+      "id": "rohini",
+      "name": "Rohini",
+      "region": "North",
+      "lat": 28.7432,
+      "lon": 77.0678,
+      "latestAnomaly": -0.2,
+      "latestYear": 2026
+    },
+    {
+      "id": "saharanpur",
+      "name": "Saharanpur",
+      "region": "North",
+      "lat": 29.9679,
+      "lon": 77.5452,
+      "latestAnomaly": 0.33,
+      "latestYear": 2026
+    },
+    {
+      "id": "salem",
+      "name": "Salem",
+      "region": "South",
+      "lat": 11.6538,
+      "lon": 78.1554,
+      "latestAnomaly": -0.2,
+      "latestYear": 2026
+    },
+    {
+      "id": "sangli",
+      "name": "Sangli",
+      "region": "West",
+      "lat": 16.8544,
+      "lon": 74.5642,
+      "latestAnomaly": 0.06,
+      "latestYear": 2026
+    },
+    {
+      "id": "shillong",
+      "name": "Shillong",
+      "region": "Northeast",
+      "lat": 25.5689,
+      "lon": 91.8831,
+      "latestAnomaly": 0.98,
+      "latestYear": 2026
+    },
+    {
+      "id": "shimla",
+      "name": "Shimla",
+      "region": "Himalaya",
+      "lat": 31.1044,
+      "lon": 77.1666,
+      "latestAnomaly": 0.95,
+      "latestYear": 2026
+    },
+    {
+      "id": "shivaji-nagar",
+      "name": "Shivaji Nagar",
+      "region": "West",
+      "lat": 18.5302,
+      "lon": 73.8526,
+      "latestAnomaly": 0.42,
+      "latestYear": 2026
+    },
+    {
+      "id": "sholapur",
+      "name": "Sholapur",
+      "region": "West",
+      "lat": 17.6715,
+      "lon": 75.9104,
+      "latestAnomaly": 0,
+      "latestYear": 2026
+    },
+    {
+      "id": "shyamnagar",
+      "name": "Shyamnagar",
+      "region": "East",
+      "lat": 22.8333,
+      "lon": 88.3667,
+      "latestAnomaly": 0.22,
+      "latestYear": 2026
+    },
+    {
+      "id": "siliguri",
+      "name": "Siliguri",
+      "region": "Northeast",
+      "lat": 26.71,
+      "lon": 88.4285,
+      "latestAnomaly": 0.53,
+      "latestYear": 2026
+    },
+    {
+      "id": "srinagar",
+      "name": "Srinagar",
+      "region": "Himalaya",
+      "lat": 34.0857,
+      "lon": 74.8055,
+      "latestAnomaly": 1.58,
+      "latestYear": 2026
+    },
+    {
+      "id": "surat",
+      "name": "Surat",
+      "region": "West",
+      "lat": 21.1959,
+      "lon": 72.8302,
+      "latestAnomaly": 0.18,
+      "latestYear": 2026
+    },
+    {
+      "id": "teni",
+      "name": "Teni",
+      "region": "South",
+      "lat": 10.0112,
+      "lon": 77.4777,
+      "latestAnomaly": -0.44,
+      "latestYear": 2026
+    },
+    {
+      "id": "thane",
+      "name": "Thane",
+      "region": "West",
+      "lat": 19.197,
+      "lon": 72.9635,
+      "latestAnomaly": 0.48,
+      "latestYear": 2026
+    },
+    {
+      "id": "thiruvananthapuram",
+      "name": "Thiruvananthapuram",
+      "region": "South",
+      "lat": 8.4855,
+      "lon": 76.9492,
+      "latestAnomaly": 0.22,
+      "latestYear": 2026
+    },
+    {
+      "id": "thoothukudi",
+      "name": "Thoothukudi",
+      "region": "South",
+      "lat": 8.7674,
+      "lon": 78.1342,
+      "latestAnomaly": -0.03,
+      "latestYear": 2026
+    },
+    {
+      "id": "tiruchirappalli",
+      "name": "Tiruchirappalli",
+      "region": "South",
+      "lat": 10.8155,
+      "lon": 78.6965,
+      "latestAnomaly": 0.09,
+      "latestYear": 2026
+    },
+    {
+      "id": "tirunelveli",
+      "name": "Tirunelveli",
+      "region": "South",
+      "lat": 8.7274,
+      "lon": 77.6838,
+      "latestAnomaly": -0.3,
+      "latestYear": 2026
+    },
+    {
+      "id": "tiruppur",
+      "name": "Tiruppur",
+      "region": "South",
+      "lat": 11.1154,
+      "lon": 77.3546,
+      "latestAnomaly": -0.18,
+      "latestYear": 2026
+    },
+    {
+      "id": "udaipur",
+      "name": "Udaipur",
+      "region": "North",
+      "lat": 24.5858,
+      "lon": 73.7135,
+      "latestAnomaly": -0.11,
+      "latestYear": 2026
+    },
+    {
+      "id": "ujjain",
+      "name": "Ujjain",
+      "region": "Central",
+      "lat": 23.1824,
+      "lon": 75.7764,
+      "latestAnomaly": -0.45,
+      "latestYear": 2026
+    },
+    {
+      "id": "ulhasnagar",
+      "name": "Ulhasnagar",
+      "region": "West",
+      "lat": 19.2167,
+      "lon": 73.15,
+      "latestAnomaly": 0.45,
+      "latestYear": 2026
+    },
+    {
+      "id": "vadodara",
+      "name": "Vadodara",
+      "region": "West",
+      "lat": 22.2994,
+      "lon": 73.2081,
+      "latestAnomaly": -0.22,
+      "latestYear": 2026
+    },
+    {
+      "id": "varanasi",
+      "name": "Varanasi",
+      "region": "East",
+      "lat": 25.3167,
+      "lon": 83.0104,
+      "latestAnomaly": -0.3,
+      "latestYear": 2026
+    },
+    {
+      "id": "vellore",
+      "name": "Vellore",
+      "region": "South",
+      "lat": 12.9184,
+      "lon": 79.1325,
+      "latestAnomaly": 0.54,
+      "latestYear": 2026
+    },
+    {
+      "id": "vijayawada",
+      "name": "Vijayawada",
+      "region": "South",
+      "lat": 16.5074,
+      "lon": 80.6466,
+      "latestAnomaly": 0.21,
+      "latestYear": 2026
+    },
+    {
+      "id": "virar",
+      "name": "Virar",
+      "region": "West",
+      "lat": 19.4559,
+      "lon": 72.8114,
+      "latestAnomaly": 0.45,
+      "latestYear": 2026
+    },
+    {
+      "id": "visakhapatnam",
+      "name": "Visakhapatnam",
+      "region": "East",
+      "lat": 17.6801,
+      "lon": 83.2016,
+      "latestAnomaly": 0.14,
+      "latestYear": 2026
+    },
+    {
+      "id": "warangal",
+      "name": "Warangal",
+      "region": "Central",
+      "lat": 18,
+      "lon": 79.5833,
+      "latestAnomaly": -0.41,
+      "latestYear": 2026
+    }
+  ]
+}

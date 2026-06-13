@@ -1,0 +1,18 @@
+{
+  "source": {
+    "name": "NOAA CPC / IRI — ENSO Diagnostic Discussion",
+    "url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml"
+  },
+  "fetchedAt": "2026-06-12T09:09:33.372Z",
+  "status": "El Niño Advisory",
+  "issued": "11 June 2026",
+  "synopsis": "El Niño conditions are present and expected to strengthen into the Northern Hemisphere winter 2026-27.",
+  "weeklyNino34": 0.7,
+  "forecast": {
+    "probability": 63,
+    "strength": "very strong",
+    "phase": "El Niño",
+    "season": "November-January"
+  },
+  "nextUpdate": "9 July 2026"
+}

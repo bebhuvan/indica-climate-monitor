@@ -1,0 +1,16 @@
+# dependencies & build output (regenerated, not source of truth)
+node_modules/
+dist/
+.astro/
+
+# the city/national JSON in public/data IS source-of-truth data — DO NOT ignore it.
+# It's the dataset the dashboard ships and the transparency page links to.
+
+# local env / secrets (none today — ingest is keyless — but stay safe if one's added)
+.env
+.env.*
+.dev.vars
+
+# logs & OS cruft
+*.log
+.DS_Store

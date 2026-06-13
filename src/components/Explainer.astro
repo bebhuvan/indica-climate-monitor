@@ -1,0 +1,10 @@
+---
+// "Cool chart — but what does it mean?" box. The macha layer: warm, grounded,
+// plain-language. Styles live in global.css (.explainer) so it works anywhere.
+interface Props { tag?: string; }
+const { tag = "What this actually means" } = Astro.props;
+---
+<aside class="explainer">
+  <span class="ex-tag"><span class="spark"></span>{tag}</span>
+  <p class="ex-body"><slot /></p>
+</aside>

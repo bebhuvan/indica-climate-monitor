@@ -1,0 +1,174 @@
+---
+// India warming map — static ERA5 per-state choropleth (recent decade vs the
+// 1951-1980 baseline). Paths render server-side; a small island handles hover,
+// the synced ranked list, and the tooltip.
+import states from "../data/states.json";
+import Explainer from "./Explainer.astro";
+const { viewBox, min, max, regions, source, baseline, recent } = states;
+
+// sequential warm ramp: pale → amber → deep ember (all values are warming)
+const RAMP: [number, [number, number, number]][] = [
+  [0.0, [250, 233, 205]],
+  [0.4, [240, 171, 84]],
+  [0.7, [212, 96, 44]],
+  [1.0, [138, 28, 16]],
+];
+function colour(v: number): string {
+  const t = Math.max(0, Math.min(1, (v - min) / (max - min)));
+  let a = RAMP[0], b = RAMP[RAMP.length - 1];
+  for (let i = 0; i < RAMP.length - 1; i++)
+    if (t >= RAMP[i][0] && t <= RAMP[i + 1][0]) { a = RAMP[i]; b = RAMP[i + 1]; break; }
+  const f = (t - a[0]) / (b[0] - a[0] || 1);
+  const c = a[1].map((ai, i) => Math.round(ai + (b[1][i] - ai) * f));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, "-");
+const top = regions.slice(0, 8);
+const legendStops = [min, (min + max) / 2, max];
+---
+
+<section class="section india-map">
+  <div class="section-head">
+    <p class="eyebrow">Where it's warming fastest</p>
+    <h2>The mountains are heating quickest of all</h2>
+    <p class="standfirst">
+      How much each state has warmed — the {recent.replace(" mean", "")} average against the
+      {" "}{baseline.replace(" mean", "")} baseline. The Himalayan north leads; the deep south warms slowest.
+    </p>
+  </div>
+
+  <div class="map-layout">
+    <figure class="map" data-map>
+      <svg viewBox={viewBox} role="img" aria-label="Map of India coloured by how much each state has warmed">
+        {regions.map((r, i) => (
+          <path d={r.path} class="state reveal" data-state={slug(r.name)}
+                data-name={r.name} data-value={r.value} fill={colour(r.value)}
+                style={`animation-delay:${(i * 37) % 340}ms`} />
+        ))}
+      </svg>
+      <div class="maptip" data-tip hidden></div>
+    </figure>
+
+    <aside class="map-side">
+      <ol class="rank" data-rank>
+        {top.map((r, i) => (
+          <li data-state={slug(r.name)}>
+            <span class="rk">{i + 1}</span>
+            <span class="nm">{r.name}</span>
+            <span class="vl mono">+{r.value.toFixed(2)}°</span>
+          </li>
+        ))}
+      </ol>
+      <div class="map-legend">
+        <div class="bar"></div>
+        <div class="ticks mono">
+          {legendStops.map((v) => <span>+{v.toFixed(1)}°C</span>)}
+        </div>
+      </div>
+      <p class="fignote">
+        Source: <a href={source.url} target="_blank" rel="noopener">{source.name}</a> reanalysis,
+        per-state area average. {regions.length} states &amp; UTs.
+      </p>
+    </aside>
+  </div>
+
+  <Explainer>
+    Darker means that state has warmed more since the mid-20th century, your grandparents' time.
+    The <strong>mountains lead</strong> because the snow and ice that used to bounce sunlight back
+    to space are shrinking, so the bare land now soaks up the heat instead. The far south warms
+    slowest because it is wrapped in ocean, and the sea is slow to heat. So warming is real
+    everywhere, but it is not shared out evenly.
+  </Explainer>
+</section>
+
+<style is:global>
+  .india-map .map-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(230px, 0.95fr);
+    gap: clamp(24px, 5vw, 64px); align-items: start; }
+  @media (max-width: 760px) { .india-map .map-layout { grid-template-columns: 1fr; } }
+
+  .india-map .map { position: relative; margin: 0; }
+  .india-map .map svg { display: block; width: 100%; height: auto; max-height: 78vh;
+    overflow: visible; }
+  .india-map .state {
+    stroke: var(--paper); stroke-width: 0.8; stroke-linejoin: round;
+    transition: fill .15s var(--ease), stroke .15s var(--ease);
+    cursor: pointer;
+  }
+  .india-map .state:hover, .india-map .state.hl {
+    stroke: var(--ink); stroke-width: 1.6;
+  }
+  .india-map .state.dim { opacity: 0.35; }
+
+  .india-map .maptip {
+    position: absolute; pointer-events: none; transform: translate(-50%, -130%);
+    background: var(--ink); color: #fff; padding: 8px 11px; border-radius: 9px;
+    box-shadow: 0 8px 24px -10px rgba(27,22,19,.55); z-index: 6; white-space: nowrap;
+  }
+  .india-map .maptip .t-nm { font-family: var(--sans); font-weight: 600; font-size: 13px; }
+  .india-map .maptip .t-vl { font-family: var(--mono); font-size: 12px; color: #f0b46a; margin-top: 2px; }
+
+  .india-map .rank { list-style: none; margin: 6px 0 0; padding: 0; }
+  .india-map .rank li { display: grid; grid-template-columns: 22px 1fr auto; align-items: baseline;
+    gap: 11px; padding: 9px 8px; border-radius: 7px; cursor: default;
+    border-bottom: 1px solid var(--line); transition: background .15s var(--ease); }
+  .india-map .rank li:hover, .india-map .rank li.hl { background: var(--panel); }
+  .india-map .rank .rk { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+  .india-map .rank .nm { font-size: 15px; color: var(--ink); }
+  .india-map .rank .vl { font-size: 14px; color: var(--ember); font-weight: 600; }
+
+  .india-map .map-legend { margin: 22px 0 0; }
+  .india-map .map-legend .bar { height: 10px; border-radius: 5px;
+    background: linear-gradient(90deg, rgb(250,233,205), rgb(240,171,84) 45%, rgb(212,96,44) 72%, rgb(138,28,16)); }
+  .india-map .map-legend .ticks { display: flex; justify-content: space-between;
+    margin-top: 7px; font-size: 11px; color: var(--ink-faint); }
+  .india-map .map-side .fignote { margin-top: 22px; }
+</style>
+
+<script>
+  function initMap(root: HTMLElement) {
+    const svg = root.querySelector("svg");
+    const tip = root.querySelector("[data-tip]") as HTMLElement;
+    const mapFig = root.querySelector("[data-map]") as HTMLElement;
+    const paths = Array.from(root.querySelectorAll<SVGPathElement>(".state"));
+    const items = Array.from(root.querySelectorAll<HTMLElement>("[data-rank] li"));
+    if (!svg) return;
+
+    const byState = new Map<string, { path?: SVGPathElement; item?: HTMLElement }>();
+    for (const p of paths) {
+      const k = p.dataset.state!; (byState.get(k) ?? byState.set(k, {}).get(k)!).path = p;
+    }
+    for (const it of items) {
+      const k = it.dataset.state!; (byState.get(k) ?? byState.set(k, {}).get(k)!).item = it;
+    }
+
+    function focus(key: string | null) {
+      for (const [k, ref] of byState) {
+        const on = k === key;
+        ref.path?.classList.toggle("hl", on);
+        ref.item?.classList.toggle("hl", on);
+      }
+    }
+
+    for (const p of paths) {
+      p.addEventListener("pointerenter", (e) => {
+        focus(p.dataset.state!);
+        const rect = mapFig.getBoundingClientRect();
+        tip.innerHTML = `<div class="t-nm">${p.dataset.name}</div><div class="t-vl">+${(+p.dataset.value!).toFixed(2)}°C since the mid-century</div>`;
+        tip.style.left = `${(e as PointerEvent).clientX - rect.left}px`;
+        tip.style.top = `${(e as PointerEvent).clientY - rect.top}px`;
+        tip.hidden = false;
+      });
+      p.addEventListener("pointermove", (e) => {
+        const rect = mapFig.getBoundingClientRect();
+        tip.style.left = `${(e as PointerEvent).clientX - rect.left}px`;
+        tip.style.top = `${(e as PointerEvent).clientY - rect.top}px`;
+      });
+      p.addEventListener("pointerleave", () => { focus(null); tip.hidden = true; });
+    }
+    for (const it of items) {
+      it.addEventListener("pointerenter", () => focus(it.dataset.state!));
+      it.addEventListener("pointerleave", () => focus(null));
+    }
+  }
+  document.querySelectorAll<HTMLElement>(".india-map").forEach(initMap);
+</script>

@@ -1,0 +1,152 @@
+---
+// Annual temperature-anomaly line. Server-rendered SVG (matches Indica's static
+// charts) plus a small vanilla hover island for the read-out tooltip — the first
+// piece of client-side interactivity in the Indica family.
+interface Pt { year: number; value: number }
+interface Props {
+  data: Pt[];
+  unit: string;
+  accent?: string;
+  highlightYear?: number;
+}
+const { data, unit, accent = "#cf4321", highlightYear } = Astro.props;
+
+const W = 780, H = 400;
+const M = { top: 22, right: 16, bottom: 38, left: 50 };
+const innerW = W - M.left - M.right;
+const innerH = H - M.top - M.bottom;
+
+const years = data.map((d) => d.year);
+const vals = data.map((d) => d.value);
+const yMin = Math.min(...years), yMax = Math.max(...years);
+const vLo = Math.min(...vals), vHi = Math.max(...vals);
+// Nice symmetric-ish padded value domain on 0.5 steps.
+const pad = 0.15;
+const dMin = Math.floor((vLo - pad) * 2) / 2;
+const dMax = Math.ceil((vHi + pad) * 2) / 2;
+
+const x = (yr: number) => M.left + ((yr - yMin) / (yMax - yMin)) * innerW;
+const y = (v: number) => M.top + ((dMax - v) / (dMax - dMin)) * innerH;
+
+const pts = data.map((d) => ({ ...d, px: +x(d.year).toFixed(2), py: +y(d.value).toFixed(2) }));
+const linePath = pts.map((p, i) => `${i ? "L" : "M"}${p.px},${p.py}`).join("");
+
+// 10-year centred moving average (the trend these dashboards overlay).
+const smooth = data.map((d, i) => {
+  const lo = Math.max(0, i - 5), hi = Math.min(data.length - 1, i + 4);
+  const w = data.slice(lo, hi + 1);
+  return { year: d.year, value: w.reduce((s, p) => s + p.value, 0) / w.length };
+});
+const smoothPath = smooth.map((p, i) => `${i ? "L" : "M"}${x(p.year).toFixed(2)},${y(p.value).toFixed(2)}`).join("");
+
+// Ticks
+const yTicks: number[] = [];
+for (let v = dMin; v <= dMax + 1e-9; v += 0.5) yTicks.push(+v.toFixed(1));
+const xTicks = years.filter((yr) => yr % 20 === 0);
+
+const hi = highlightYear ? pts.find((p) => p.year === highlightYear) : undefined;
+const zeroY = y(0);
+---
+
+<figure class="anomaly-chart" data-points={JSON.stringify(pts)} data-unit={unit}>
+  <div class="plot">
+    <svg viewBox={`0 0 ${W} ${H}`} role="img"
+         aria-label={`India annual temperature anomaly, ${yMin} to ${yMax}`}>
+      <!-- y gridlines + labels -->
+      {yTicks.map((v) => (
+        <g>
+          <line class={v === 0 ? "grid zero" : "grid"} x1={M.left} x2={W - M.right} y1={y(v)} y2={y(v)}
+                stroke-width={v === 0 ? 1.25 : 1} />
+          <text x={M.left - 8} y={y(v)} dy="0.32em" text-anchor="end" class="cax">{v > 0 ? `+${v}` : v}</text>
+        </g>
+      ))}
+      <!-- x ticks -->
+      {xTicks.map((yr) => (
+        <text x={x(yr)} y={H - 12} text-anchor="middle" class="cax">{yr}</text>
+      ))}
+      <!-- baseline note at zero -->
+      <text x={W - M.right} y={zeroY - 6} text-anchor="end" class="cax muted">1991–2020 normal</text>
+
+      <path d={smoothPath} fill="none" stroke={accent} stroke-opacity="0.22" stroke-width="8"
+            stroke-linecap="round" stroke-linejoin="round" />
+      <path class="draw" d={linePath} fill="none" stroke={accent} stroke-width="2" stroke-linejoin="round" />
+
+      {hi && <circle cx={hi.px} cy={hi.py} r="4.5" fill={accent} stroke="#fff" stroke-width="1.5" />}
+
+      <!-- hover marker (moved by script) -->
+      <g class="marker" style="opacity:0">
+        <line class="mline" y1={M.top} y2={H - M.bottom} stroke="#999" stroke-width="1" stroke-dasharray="3 3" />
+        <circle class="mdot" r="4" fill="#111" stroke="#fff" stroke-width="1.5" />
+      </g>
+      <!-- transparent capture surface -->
+      <rect class="capture" x={M.left} y={M.top} width={innerW} height={innerH} fill="transparent" />
+    </svg>
+    <div class="tip" hidden></div>
+  </div>
+</figure>
+
+<style>
+  .anomaly-chart { margin: 0; }
+  .plot { position: relative; }
+  .anomaly-chart svg { display: block; width: 100%; height: auto; }
+  .cax.muted { fill: #c2b4a6; font-size: 11px; }
+  .capture { cursor: crosshair; }
+  .tip {
+    position: absolute; pointer-events: none; transform: translate(-50%, -120%);
+    background: var(--ink); color: #fff; padding: 6px 10px; border-radius: 8px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.35; white-space: nowrap;
+    box-shadow: 0 6px 20px -8px rgba(27,22,19,0.5); z-index: 5;
+  }
+  .tip b { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .tip .yr { color: #c9a99c; font-weight: 600; margin-right: 6px; }
+</style>
+
+<script>
+  function initAnomaly(fig: HTMLElement) {
+    const svg = fig.querySelector("svg") as SVGSVGElement;
+    const capture = fig.querySelector(".capture") as SVGRectElement;
+    const marker = fig.querySelector(".marker") as SVGGElement;
+    const mline = fig.querySelector(".mline") as SVGLineElement;
+    const mdot = fig.querySelector(".mdot") as SVGCircleElement;
+    const tip = fig.querySelector(".tip") as HTMLElement;
+    const unit = fig.dataset.unit || "";
+    const pts = JSON.parse(fig.dataset.points || "[]") as
+      { year: number; value: number; px: number; py: number }[];
+    if (!pts.length) return;
+
+    function toSvg(evt: PointerEvent) {
+      const p = svg.createSVGPoint();
+      p.x = evt.clientX; p.y = evt.clientY;
+      return p.matrixTransform(svg.getScreenCTM()!.inverse());
+    }
+
+    function move(evt: PointerEvent) {
+      const loc = toSvg(evt);
+      // nearest point by x in svg-space
+      let best = pts[0], bd = Infinity;
+      for (const pt of pts) {
+        const d = Math.abs(pt.px - loc.x);
+        if (d < bd) { bd = d; best = pt; }
+      }
+      marker.style.opacity = "1";
+      mline.setAttribute("x1", String(best.px));
+      mline.setAttribute("x2", String(best.px));
+      mdot.setAttribute("cx", String(best.px));
+      mdot.setAttribute("cy", String(best.py));
+      // position tooltip in screen space
+      const rect = svg.getBoundingClientRect();
+      const sx = rect.left + (best.px / svg.viewBox.baseVal.width) * rect.width;
+      const sy = rect.top + (best.py / svg.viewBox.baseVal.height) * rect.height;
+      const sign = best.value > 0 ? "+" : "";
+      tip.innerHTML = `<span class="yr">${best.year}</span><b>${sign}${best.value.toFixed(2)}</b> ${unit}`;
+      tip.style.left = `${sx - rect.left}px`;
+      tip.style.top = `${sy - rect.top}px`;
+      tip.hidden = false;
+    }
+    function leave() { marker.style.opacity = "0"; tip.hidden = true; }
+
+    capture.addEventListener("pointermove", move);
+    capture.addEventListener("pointerleave", leave);
+  }
+  document.querySelectorAll<HTMLElement>(".anomaly-chart").forEach(initAnomaly);
+</script>

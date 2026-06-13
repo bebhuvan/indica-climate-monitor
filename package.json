@@ -1,0 +1,21 @@
+{
+  "name": "india-climate-monitor",
+  "type": "module",
+  "private": true,
+  "version": "0.1.0",
+  "description": "India Climate Monitor — auto-updating temperature dashboard (climate.thisindianlife.today)",
+  "scripts": {
+    "aggregate": "node scripts/aggregate.mjs",
+    "ingest:cities": "node scripts/ingest-cities.mjs",
+    "ingest:cmip6": "node scripts/ingest-cmip6.mjs",
+    "ingest:enso": "node scripts/ingest-enso-advisory.mjs",
+    "refresh": "node scripts/ingest-enso-advisory.mjs && npm run aggregate",
+    "dev": "npm run aggregate && astro dev",
+    "start": "astro dev",
+    "build": "npm run aggregate && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^6.4.2"
+  }
+}

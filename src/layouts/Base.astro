@@ -1,0 +1,42 @@
+---
+import "../styles/global.css";
+interface Props { title?: string; description?: string; }
+const {
+  title = "India Climate Monitor — how hot is India getting?",
+  description = "A live, editorial temperature record for India and 38 of its cities, built on ERA5 (Copernicus), Berkeley Earth and Open-Meteo reanalysis.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#cf4321" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <span class="brand">India Climate Monitor</span>
+        <span class="live"><span class="dot"></span> tracking</span>
+      </header>
+      <slot />
+      <footer class="sitefoot">
+        <a href="https://thisindianlife.today">← This Indian Life</a>
+        <span>climate.thisindianlife.today</span>
+      </footer>
+    </div>
+  </body>
+</html>
